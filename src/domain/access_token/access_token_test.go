@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetNewAccessToken_ReturnInitValue(t *testing.T) {
-	at := GetNewAccessToken()
+	at := GetNewAccessToken(10)
 	if at.IsExpired() {
 		t.Error("Brand new access token should not be expired.")
 	}
@@ -19,8 +19,8 @@ func TestGetNewAccessToken_ReturnInitValue(t *testing.T) {
 		t.Error("New Access token should not have user id")
 	}
 
-	if at.UserID != 0 {
-		t.Error("New Access token should not have user id")
+	if at.UserID != 10 {
+		t.Error("New Access token with user id should have user id = 10")
 	}
 }
 
