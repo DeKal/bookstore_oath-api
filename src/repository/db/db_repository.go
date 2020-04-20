@@ -3,7 +3,7 @@ package db
 import (
 	"github.com/DeKal/bookstore_oath-api/src/clients/cassandra"
 	accesstoken "github.com/DeKal/bookstore_oath-api/src/domain/access_token"
-	"github.com/DeKal/bookstore_users-api/src/utils/errors"
+	"github.com/DeKal/bookstore_utils-go/errors"
 	"github.com/gocql/gocql"
 )
 

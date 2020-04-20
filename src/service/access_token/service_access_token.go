@@ -6,7 +6,7 @@ import (
 	accesstoken "github.com/DeKal/bookstore_oath-api/src/domain/access_token"
 	"github.com/DeKal/bookstore_oath-api/src/repository/db"
 	"github.com/DeKal/bookstore_oath-api/src/repository/rest"
-	"github.com/DeKal/bookstore_users-api/src/utils/errors"
+	"github.com/DeKal/bookstore_utils-go/errors"
 )
 
 // Service service interface

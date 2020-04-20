@@ -5,7 +5,7 @@ import (
 
 	accesstoken "github.com/DeKal/bookstore_oath-api/src/domain/access_token"
 	svcaccesstoken "github.com/DeKal/bookstore_oath-api/src/service/access_token"
-	"github.com/DeKal/bookstore_users-api/src/utils/errors"
+	"github.com/DeKal/bookstore_utils-go/errors"
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DeKal/bookstore_users-api/src/utils/crypto"
-	"github.com/DeKal/bookstore_users-api/src/utils/errors"
+	"github.com/DeKal/bookstore_utils-go/crypto"
+	"github.com/DeKal/bookstore_utils-go/errors"
 )
 
 const (

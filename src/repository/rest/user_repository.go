@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/DeKal/bookstore_oath-api/src/domain/users"
-	"github.com/DeKal/bookstore_users-api/src/utils/errors"
+	"github.com/DeKal/bookstore_utils-go/errors"
 	"github.com/mercadolibre/golang-restclient/rest"
 )
 
