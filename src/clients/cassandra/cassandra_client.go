@@ -2,6 +2,7 @@ package cassandra
 
 import (
 	"github.com/gocql/gocql"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -10,8 +11,10 @@ var (
 )
 
 func init() {
-	cluster = gocql.NewCluster("127.0.0.1")
-	cluster.Keyspace = "oauth"
+	godotenv.Load()
+
+	cluster = gocql.NewCluster(getHost())
+	cluster.Keyspace = getKeySpace()
 	cluster.Consistency = gocql.Quorum
 
 	var err error
