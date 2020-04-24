@@ -1,6 +1,8 @@
 package app
 
 import (
+	"github.com/DeKal/bookstore_oath-api/src/clients/cassandra"
+	rest_client "github.com/DeKal/bookstore_oath-api/src/clients/rest"
 	"github.com/DeKal/bookstore_oath-api/src/http"
 	"github.com/DeKal/bookstore_oath-api/src/repository/db"
 	"github.com/DeKal/bookstore_oath-api/src/repository/rest"
@@ -14,8 +16,12 @@ var (
 
 // StartApplication start the whole application
 func StartApplication() {
-	dbRepository := db.NewDBRepository()
-	restRepository := rest.NewRepository()
+	cqlSession := cassandra.NewCassandraSession()
+	dbRepository := db.NewDBRepository(cqlSession)
+
+	restClient := rest_client.NewRestClient()
+	restRepository := rest.NewRepository(restClient)
+
 	accessTokenService := svcaccesstoken.NewService(dbRepository, restRepository)
 	accesstokenHandler := http.NewHandler(accessTokenService)
 

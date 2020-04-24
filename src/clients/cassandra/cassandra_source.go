@@ -8,9 +8,9 @@ const (
 )
 
 func getHost() string {
-	return os.Getenv("cassandra_host")
+	return os.Getenv(host)
 }
 
 func getKeySpace() string {
-	return os.Getenv("cassandra_keyspace")
+	return os.Getenv(keyspace)
 }

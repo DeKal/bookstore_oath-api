@@ -7,7 +7,6 @@ import (
 
 var (
 	cluster *gocql.ClusterConfig
-	session *gocql.Session
 )
 
 func init() {
@@ -16,15 +15,13 @@ func init() {
 	cluster = gocql.NewCluster(getHost())
 	cluster.Keyspace = getKeySpace()
 	cluster.Consistency = gocql.Quorum
+}
 
-	var err error
-	session, err = cluster.CreateSession()
+// NewCassandraSession create new session from cluster
+func NewCassandraSession() *gocql.Session {
+	session, err := cluster.CreateSession()
 	if err != nil {
 		panic(err)
 	}
-}
-
-// GetSession return Session of Cassandra
-func GetSession() *gocql.Session {
 	return session
 }

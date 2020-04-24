@@ -1,7 +1,6 @@
 package db
 
 import (
-	"github.com/DeKal/bookstore_oath-api/src/clients/cassandra"
 	accesstoken "github.com/DeKal/bookstore_oath-api/src/domain/access_token"
 	"github.com/DeKal/bookstore_utils-go/errors"
 	"github.com/gocql/gocql"
@@ -20,17 +19,20 @@ type Repository interface {
 	UpdateExpirationTime(*accesstoken.AccessToken) *errors.RestError
 }
 
-type repository struct{}
-
-// NewDBRepository return new db repository
-func NewDBRepository() Repository {
-	return &repository{}
+type repository struct {
+	session *gocql.Session
 }
 
-func (*repository) GetByID(accessTokenID string) (*accesstoken.AccessToken, *errors.RestError) {
-	session := cassandra.GetSession()
+// NewDBRepository return new db repository
+func NewDBRepository(session *gocql.Session) Repository {
+	return &repository{
+		session: session,
+	}
+}
+
+func (r *repository) GetByID(accessTokenID string) (*accesstoken.AccessToken, *errors.RestError) {
 	result := &accesstoken.AccessToken{}
-	if err := session.Query(queryGetAccessToken, accessTokenID).Scan(
+	if err := r.session.Query(queryGetAccessToken, accessTokenID).Scan(
 		&result.AccessToken,
 		&result.UserID,
 		&result.ClientID,
@@ -45,9 +47,8 @@ func (*repository) GetByID(accessTokenID string) (*accesstoken.AccessToken, *err
 	return result, nil
 }
 
-func (*repository) Create(token *accesstoken.AccessToken) *errors.RestError {
-	session := cassandra.GetSession()
-	if err := session.Query(
+func (r *repository) Create(token *accesstoken.AccessToken) *errors.RestError {
+	if err := r.session.Query(
 		queryCreateAccessToken,
 		token.AccessToken,
 		token.UserID,
@@ -59,9 +60,8 @@ func (*repository) Create(token *accesstoken.AccessToken) *errors.RestError {
 	return nil
 }
 
-func (*repository) UpdateExpirationTime(token *accesstoken.AccessToken) *errors.RestError {
-	session := cassandra.GetSession()
-	if err := session.Query(
+func (r *repository) UpdateExpirationTime(token *accesstoken.AccessToken) *errors.RestError {
+	if err := r.session.Query(
 		queryUpdateExpirationTime,
 		token.Expired,
 		token.AccessToken,

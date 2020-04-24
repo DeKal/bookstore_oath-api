@@ -2,18 +2,10 @@ package rest
 
 import (
 	"encoding/json"
-	"time"
 
 	"github.com/DeKal/bookstore_oath-api/src/domain/users"
 	"github.com/DeKal/bookstore_utils-go/errors"
 	"github.com/mercadolibre/golang-restclient/rest"
-)
-
-var (
-	userRestClient = rest.RequestBuilder{
-		BaseURL: "http://localhost:9001",
-		Timeout: 100 * time.Millisecond,
-	}
 )
 
 // Repository export interface for Rest call
@@ -21,19 +13,22 @@ type Repository interface {
 	Login(string, string) (*users.User, *errors.RestError)
 }
 type repository struct {
+	client *rest.RequestBuilder
 }
 
 // NewRepository new rest Repository implementation
-func NewRepository() Repository {
-	return &repository{}
+func NewRepository(client *rest.RequestBuilder) Repository {
+	return &repository{
+		client: client,
+	}
 }
 
-func (*repository) Login(email string, password string) (*users.User, *errors.RestError) {
+func (r *repository) Login(email string, password string) (*users.User, *errors.RestError) {
 	request := users.LoginRequest{
 		Email:    email,
 		Password: password,
 	}
-	response := userRestClient.Post("/users/login", request)
+	response := r.client.Post("/users/login", request)
 	if response == nil || response.Response == nil {
 		return nil, errors.NewInternalServerError("Invalid rest client response when trying to get user")
 	}
